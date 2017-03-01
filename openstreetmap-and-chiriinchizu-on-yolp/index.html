@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>OpenStreetMap &amp; 地理院地図 on Yahoo! JavaScriptマップAPI</title>
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+<script src="https://map.yahooapis.jp/js/V1/jsapi?appid=dj0zaiZpPUNTM05IVlY0ZU5UYSZzPWNvbnN1bWVyc2VjcmV0Jng9Mjk-"></script>
+<script>
+
+document.addEventListener('DOMContentLoaded', function(event) {
+
+  // OSMと地理院地図のレイヤー
+  var OptLayers = {
+
+    // OpenStreetMap の地図を表示するレイヤーを生成する
+    createOpenStreetMapLayer() {
+      var self = this;
+      var layer = new Y.ImageTileLayer();
+      layer.getImageSrc = function(x, y, z) {
+        var t = self.calc(x, y, z);
+        var subdomains = ['a', 'b', 'c'];
+        var subdomain = subdomains[x % 3];
+        var url = 'http://' + subdomain + '.tile.openstreetmap.org/' + t.z + '/' + t.x + '/' + t.y + '.png';
+        return url;
+      };
+      return layer;
+    },
+
+    // 地理院地図の地図を表示するレイヤーを生成する
+    createChiriinChizuLayer() {
+      var self = this;
+      var layer = new Y.ImageTileLayer();
+      layer.getImageSrc = function(x, y, z) {
+        var t = self.calc(x, y, z);
+        var url = 'http://cyberjapandata.gsi.go.jp/xyz/std/' + t.z + '/' + t.x + '/' + t.y + '.png';
+        return url;
+      };
+      return layer;
+    },
+
+    calc(x, y, z) {
+      t = {};
+      t.x = x;
+      t.z = z - 1;
+      t.y = Math.floor((y + 0.5) * -1 + Math.pow(2, t.z) / 2);
+      return t;
+    }
+  };
+
+  // クレジット表示用のコントロール
+  var LabelControl = function(labelHtml) {
+    this.labelHtml = labelHtml;
+  };
+  LabelControl.prototype = new Y.Control();
+  LabelControl.prototype.getDefaultPosition = function() {
+    return new Y.ControlPosition(Y.ControlPosition.BOTTOM_LEFT, new Y.Size(0, 0));
+  };
+  LabelControl.prototype.initialize = function(map) {
+    var e = document.createElement('div');
+    e.innerHTML = this.labelHtml;
+    e.style.fontWeight = 'bold';
+    e.style.fontSize = '12px';
+    e.style.fontFamily = 'Arial';
+    e.style.textAlign = 'left';
+    e.style.padding = '0px';
+    e.style.margin = '0px';
+    e.style.color = 'black';
+    return e;
+  };
+
+  // [Y.LayerSetId.NORMAL] = 'map'
+  var layerSets = {
+    'map': new Y.LayerSet('地図', [new Y.NormalLayer()]),
+    'openstreetmap': new Y.LayerSet('OpenStreetMap', [OptLayers.createOpenStreetMapLayer()]),
+    'chiriinchizu': new Y.LayerSet('地理院地図', [OptLayers.createChiriinChizuLayer()])
+  };
+
+  var map = new Y.Map('map', {
+    configure: {
+      doubleClickZoom: true,
+      scrollWheelZoom: true,
+      dragging: true
+    },
+    layerSets: layerSets
+  });
+
+  // クレジット表記
+  var creditOpenStreetMap = new LabelControl('© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors');
+  var creditChiriinChizu = new LabelControl('出典: <a href="http://maps.gsi.go.jp/development/ichiran.html" target="_blank">国土地理院</a>');
+
+  // レイヤーセット切替時にクレジット表記を変更する
+  map.bind('layersetchanged', function(newLayerSet, oldLayerSet) {
+
+    if (oldLayerSet) {
+      var oldName = oldLayerSet.getName();
+      if (oldName === 'OpenStreetMap') {
+        map.removeControl(creditOpenStreetMap);
+      } else if (oldName === '地理院地図') {
+        map.removeControl(creditChiriinChizu);
+      }
+    }
+
+    if (newLayerSet) {
+      var newName = newLayerSet.getName();
+      if (newName === 'OpenStreetMap') {
+        map.addControl(creditOpenStreetMap);
+      } else if (newName === '地理院地図') {
+        map.addControl(creditChiriinChizu);
+      }
+    }
+  });
+
+  map.addControl(new Y.LayerSetControl());
+  map.addControl(new Y.ScaleControl());
+  map.addControl(new Y.SliderZoomControlVertical());
+  map.drawMap(new Y.LatLng(35.170700, 136.881700), 15); // 名古屋駅
+
+  window.addEventListener('resize', function (event) {
+    console.log('update');
+    map.updateSize();
+  });
+});
+
+</script>
+
+<style>
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<a href="http://developer.yahoo.co.jp/about">
+<img src="http://i.yimg.jp/images/yjdn/yjdn_attbtn1_125_17.gif" title="Webサービス by Yahoo! JAPAN" alt="Web Services by Yahoo! JAPAN" width="125" height="17" border="0" style="margin:15px 15px 15px 15px"></a>
+<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
+
+</body>
+</html>
+

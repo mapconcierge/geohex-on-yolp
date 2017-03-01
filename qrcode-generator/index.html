@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>QR Code Generator</title>
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+</head>
+<body>
+<h1>QR Code Generator</h1>
+
+<!--
+QR Codes  |  Infographics  |  Google Developers
+https://developers.google.com/chart/infographics/docs/qr_codes
+-->
+<form action="https://chart.googleapis.com/chart" method="get">
+
+<input type="hidden" name="cht" value="qr">
+
+Date to encode:<br>
+<textarea name="chl" rows="8" cols="80">
+QR Code Generator
+https://niwasawa.github.io/qrcode-generator/
+</textarea>
+<br>
+
+Image size:
+<select name="chs">
+<option value="150x150">150x150</option>
+<option value="150x150">150x150</option>
+<option value="200x200">200x200</option>
+<option value="300x300">300x300</option>
+<option value="400x400">400x400</option>
+<option value="500x500">500x500</option>
+</select>
+<br>
+
+Output encoding:
+<select name="choe">
+<option value="L|4">L</option>
+<option value="M|4">M</option>
+<option value="Q|4">Q</option>
+<option value="H|4">H</option>
+</select>
+<br>
+
+levels of error correction:
+<select name="choe">
+<option value="UTF-8">UTF-8</option>
+<option value="Shift_JIS">Shift_JIS</option>
+<option value="ISO-8859-1">ISO-8859-1</option>
+</select>
+<br>
+
+<input type="submit" value="Generate your QR Code." />
+
+</form>
+
+</body>
+</html>
+

@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
       var layer = new Y.ImageTileLayer();
       layer.getImageSrc = function(x, y, z) {
         var t = self.calc(x, y, z);
-        var url = 'http://cyberjapandata.gsi.go.jp/xyz/std/' + t.z + '/' + t.x + '/' + t.y + '.png';
+        var url = 'https://cyberjapandata.gsi.go.jp/xyz/std/' + t.z + '/' + t.x + '/' + t.y + '.png';
         return url;
       };
       return layer;

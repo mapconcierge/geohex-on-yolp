@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Your web browser information</title>
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+
+<script>
+
+function show_information() {
+  var text = '';
+  for (key in window.navigator) {
+    text += '[' + key + ']=[' + window.navigator[key] + ']\n';
+  }
+  var elem = document.getElementById('display_area');
+  elem.innerText = text;
+  elem.innerHTML = elem.innerHTML.replace(new RegExp('\n', 'g'), '<br>');
+}
+
+window.onload = show_information;
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75423977-6', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+<body>
+<h1>Your web browser information</h1>
+
+<div id="display_area"></div>
+
+</body>
+</html>
+

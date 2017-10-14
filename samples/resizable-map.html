@@ -15,6 +15,7 @@
 window.onload = function(){
   var map = new Y.Map("map");
   map.addControl(new Y.CenterMarkControl());
+  map.addControl(new Y.SliderZoomControlVertical());
   map.drawMap(new Y.LatLng(35.0001, 135.0001), 17, Y.LayerSetId.NORMAL);
 ap
   $(window).bind("resize", function(event){

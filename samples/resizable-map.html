@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Resizable Map</title>
+</head>
+<body style="margin:0; padding:0;">
+<div id="map" style="width:100%; height:100%"></div>
+<div>
+<!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<a href="https://developer.yahoo.co.jp/about">
+<img src="https://s.yimg.jp/images/yjdn/yjdn_attbtn1_125_17.gif" title="Webサービス by Yahoo! JAPAN" alt="Web Services by Yahoo! JAPAN" width="125" height="17" border="0" style="margin:15px 15px 15px 15px"></a>
+<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
+<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://map.yahooapis.jp/js/V1/jsapi?appid=dj0zaiZpPUNTM05IVlY0ZU5UYSZzPWNvbnN1bWVyc2VjcmV0Jng9Mjk-"></script>
+<script type="text/javascript">
+window.onload = function(){
+  var map = new Y.Map("map");
+  map.addControl(new Y.CenterMarkControl());
+  map.drawMap(new Y.LatLng(35.0001, 135.0001), 17, Y.LayerSetId.NORMAL);
+ap
+  $(window).bind("resize", function(event){
+    map.updateSize();
+  });
+}
+</script>
+</body>
+</html>
+

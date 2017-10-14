@@ -13,7 +13,15 @@
 <script type="text/javascript" charset="utf-8" src="https://map.yahooapis.jp/js/V1/jsapi?appid=dj0zaiZpPUNTM05IVlY0ZU5UYSZzPWNvbnN1bWVyc2VjcmV0Jng9Mjk-"></script>
 <script type="text/javascript">
 window.onload = function(){
-  var map = new Y.Map("map");
+  var map = new Y.Map("map", {
+    configure : {
+      doubleClickZoom : true,
+      scrollWheelZoom : true,
+      singleClickPan : true,
+      hybridPhoto : true,
+      continuousZoom : true
+    }
+  });
   map.addControl(new Y.CenterMarkControl());
   map.addControl(new Y.SliderZoomControlVertical());
   map.addControl(new Y.LayerSetControl());

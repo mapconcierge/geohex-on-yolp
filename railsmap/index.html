@@ -10,26 +10,39 @@
 <script type="text/javascript" charset="utf-8" src="https://map.yahooapis.jp/js/V1/jsapi?appid=dj0zaiZpPUNTM05IVlY0ZU5UYSZzPWNvbnN1bWVyc2VjcmV0Jng9Mjk-"></script>
 <script type="text/javascript">
 window.onload = function(){
-  // 鉄道路線レイヤー
+
+  // スタイル地図レイヤーを生成
+  // 地図の図式には鉄道路線(railway)を指定
   var railwayMapLayer = new Y.StyleMapLayer("railway");
-  var layerSets = {
-    "railway": new Y.LayerSet("鉄道路線", [railwayMapLayer]),
-    "map": new Y.LayerSet("地図", [new Y.NormalLayer()])
-  };
+
+  // 鉄道路線のレイヤーセット(IDとレイヤーセット)
+  var RAILWAY_LAYER_SET_ID = "myRailway";
+  var railwayLayerSet = new Y.LayerSet("鉄道路線", [railwayMapLayer]);
+
+  // 使用するレイヤーセット群を用意
+  var layerSets = {};
+  layerSets[RAILWAY_LAYER_SET_ID] = railwayLayerSet;
+  layerSets[Y.LayerSetId.NORMAL]  = new Y.LayerSet("地図", [new Y.NormalLayer()]);
+
+  // 地図オブジェクトを生成
   var map = new Y.Map("map", {
-    layerSets: layerSets,
-    configure : {
+    layerSets: layerSets, // レイヤーセット群を指定
+    configure : { // 各種設定
       doubleClickZoom : true,
       scrollWheelZoom : true,
-      singleClickPan : true,
-      hybridPhoto : true,
-      continuousZoom : true
+      singleClickPan  : true,
+      hybridPhoto     : true,
+      continuousZoom  : true
     }
   });
+
+  // 各種コントロール
   map.addControl(new Y.ScaleControl());
   map.addControl(new Y.ZoomControl());
   map.addControl(new Y.LayerSetControl());
-  map.drawMap(new Y.LatLng(35.170634, 136.881751), 14, "railway");
+
+  // 地図を描画
+  map.drawMap(new Y.LatLng(35.170634, 136.881751), 14, RAILWAY_LAYER_SET_ID);
 }
 </script>
 </body>
